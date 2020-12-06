@@ -26,7 +26,7 @@ SECRET_KEY = 'n*0_d+53%iaybpk-j1e@a3)%1112#gm7af*jxe=t7u8*&ns55i'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -45,14 +45,24 @@ INSTALLED_APPS = [
     'products',
 ]
 
-MIDDLEWARE = [
+'''MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',    
+]'''
+MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    #'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',    
 ]
 
 ROOT_URLCONF = 'AuctionSystem.urls'
@@ -79,11 +89,25 @@ WSGI_APPLICATION = 'AuctionSystem.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
+''''DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite'),
     }
+}'''
+DATABASES = {
+    'default': {
+         'ENGINE': 'sql_server.pyodbc',
+         'NAME': 'onlineauctionsqldb',
+         'USER': 'encs',
+         'PASSWORD': 'cloud691$',
+         'HOST': 'onlineauctionsystem.database.windows.net',
+         'PORT': '1433',
+         'OPTIONS': {
+             'driver': 'ODBC Driver 17 for SQL Server',
+             'MARS_Connection': 'True',
+         }
+     }
 }
 
 
@@ -124,9 +148,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+'''STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
-]
+]'''
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 #Email settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

@@ -21,6 +21,7 @@ th, td {
     	//var countDownDate = new Date("Nov 17, 2020 15:45:25").getTime();
       //alert( "{{ bidtime }}" )
       error ="{{error}}"
+      productstatus = "{{productstatus}}"
       if(Boolean(error))
         alert(error)
     	var countDownDate = new Date("{{ bidtime|safe}}").getTime();
@@ -30,9 +31,9 @@ th, td {
     	var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     	var seconds = Math.floor((distance % (1000 * 60)) / 1000);
     	document.getElementById("time_remaining").innerHTML = minutes + "m " + seconds + "s ";
-    	if (distance < 0) {
+    if (distance < 0 || productstatus == "SOLD" || productstatus == "NEW" || (minutes == 0 && seconds == 0)) {
     	  clearInterval(x);
-    	  document.getElementById("time_remaining").innerHTML = "EXPIRED";
+    	  document.getElementById("time_remaining").innerHTML = "NOT AVAILABLE";
         document.getElementById("bidButton").hidden = true;
     	}
     }, 1000);

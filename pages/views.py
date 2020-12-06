@@ -137,7 +137,8 @@ def product_view(request, *args, **kwargs):
 			#"bidtime" : "Nov 17, 2020 15:45:25"
 			#"bidtime" : "2020-11-17 15:47:17.012056"
 			"bidtime" : bidtime,
-			"username" : request.session['username']
+			"username" : request.session['username'],
+			"productstatus" : product.status
 		}
 	print(request.POST.get('Option'))
 
@@ -152,6 +153,7 @@ def product_view(request, *args, **kwargs):
 
 		if request.POST.get('Option') == 'start_bidding' :	
 			product.endtime = datetime.datetime.now()+datetime.timedelta(minutes = 1)
+			product.status = 'BIDDING'
 			product.save()
 			context["bidtime"] = product.endtime
 			notify_users(product.productname)
@@ -178,6 +180,7 @@ def product_view(request, *args, **kwargs):
 				context["error"] = "Bid amount should be greater than current highest bid price or base price"
 
 			context["bidtime"] = str(product.endtime)[:-6]
+			context["productstatus"] = product.status
 			
 	return render(request, 'viewproduct.html',context)
 
@@ -230,6 +233,8 @@ def notify_or_restart(productid):
 	print(product.productid)
 	seller_user = UserProfiles.objects.get(userid=product.userid)
 	if product.winnerid:
+		product.status = 'SOLD'
+		product.save()
 		winner_user = UserProfiles.objects.get(userid=product.winnerid)
 		send_mail(
 			    subject = "Auction Result : Congratulations - you have won !",
