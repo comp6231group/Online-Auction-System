@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Auction System</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+		{% load static %}  
+		<link href="{% static 'css/main.css' %}" rel="stylesheet">
+	</head>
+	<body class="background">		
+		<div class="container">
+			<div class="row" style="height:180px">
+				
+			</div>
+			<div class="row">
+				<div class="col-md-4"></div>
+				<div class="col-md-4"></div>
+				<div class="col-md-4 loginCss">
+					<div class="col-md-12">
+						<label style="font-size: 25px" class="col-md-12">{{message}}</label>
+					</div>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<div class="col-md-12">
+						<a href="{{url}}" class="btn btn-primary" style="width:100%;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">{{btn_message}}</a></div>
+					</div>
+					<br>
+					<br>				
+				</div>				
+			</div>
+		</div>
+		
+	</body>	
+</html>
+

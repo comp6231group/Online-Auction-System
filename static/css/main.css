@@ -1,0 +1,80 @@
+html{
+	height:100%;
+
+}
+
+body.background{
+	background-image: url("../images/auctionimage.png");
+	height:100%;
+	background-position: center top;
+	background-repeat: no-repeat;
+	background-size: cover;
+
+}
+
+label{
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.loginCss{
+	border:1px solid lightgray;
+	padding:35px;
+	background-color: white;
+	text-align: center;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.btn-primary{
+	border-radius: 0px;
+	background-color: #00C6FA;
+	border-color: #00C6FA;
+}
+
+.btn-primary:hover{
+	border-radius: 0px;
+	background-color: #FF7417;
+	border-color: #FF7417;
+}
+
+.form-control{
+	border-radius: 0px;
+}
+
+.input-group-addon{
+	border-radius: 0px;
+}
+
+.alert{
+	padding:10px;
+}
+
+.close{
+	right:0px !important;
+}
+
+.navbar-default{
+	background-color: #00C6FA ;
+	border-color: #00C6FA;
+}
+
+.navbar-default a{
+	color: white !important;
+}
+
+.navbar-default a:hover{
+	background-color: white !important ;
+	border-color: white !important;
+	color: #00C6FA !important;
+}
+
+.navbar-right a:hover{
+	cursor: pointer;
+}
+
+.dropdown-menu a{
+	color: #00C6FA !important;
+}
+
+.dropdown-menu a:hover{
+	text-decoration: underline !important;
+}

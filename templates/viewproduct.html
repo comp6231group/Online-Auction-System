@@ -1,0 +1,105 @@
+{% extends 'home.html' %}
+
+{% block content %}
+	<style>
+    #bid_amount{
+       display : none;
+    }
+table, th, td {
+  border: 0 ;
+  max-width: 600px;
+}
+
+
+
+th, td {
+  padding: 10px;
+}
+</style>
+	<body>
+		<script>
+    	//var countDownDate = new Date("Nov 17, 2020 15:45:25").getTime();
+      //alert( "{{ bidtime }}" )
+      error ="{{error}}"
+      if(Boolean(error))
+        alert(error)
+    	var countDownDate = new Date("{{ bidtime|safe}}").getTime();
+    	var x = setInterval(function() {
+    	var now = new Date().getTime();
+    	var distance = countDownDate - now;
+    	var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    	var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    	document.getElementById("time_remaining").innerHTML = minutes + "m " + seconds + "s ";
+    	if (distance < 0) {
+    	  clearInterval(x);
+    	  document.getElementById("time_remaining").innerHTML = "EXPIRED";
+        document.getElementById("bidButton").hidden = true;
+    	}
+    }, 1000);
+
+    function bid_details() {
+      var x = document.getElementById("bid_amount");
+      x.style.display = "block";
+      
+    }
+</script>
+
+<div align="center" style="margin-top: 100px; ">
+<br/>
+<img src="/{{product.image}}" width="450px" style="float: left;margin-left: 10px" >
+<br/>
+<form method="POST" action="." >
+	  {% csrf_token %}
+ <table border="0" >
+ 	  <tr>
+        <th>Time remaining:</th>
+        <td >
+        <a id="time_remaining"></a>
+        </td>
+      </tr>
+      
+      <tr>
+        <th>Product Name:</th>
+        <td>
+         {{product.productname}}
+        </td>
+      </tr>
+      <tr>
+        <th>Product Category:</th>
+        <td>
+         {{product.category}}
+        </td>
+      </tr>
+      <tr>
+        <th>Product Description:</th>
+        <td>
+         {{product.description}}
+        </td>
+      </tr>
+      <tr>
+        <th>Price:</th>
+        <td>
+         $ {{product.price}}
+        </td>
+      </tr>
+      <tr>
+        <th>Current Highest Bid:</th>
+        <td>
+         $ {{product.highestbid}}
+        </td>
+      </tr>
+     </table>
+     <input type="hidden" name="productid" value="{{ product.productid }}">
+     {% if isadmin == True %}
+     	<button type="submit" name="Option" value="start_bidding">Start Bidding</button>
+     {% else %}
+     	<button type="button" onclick="bid_details()" style="font-size: 20px;color: green;" id="bidButton">Bid</button>
+     {% endif %}
+     <br/>
+     <br/>
+     <div id="bid_amount">Enter bid amount: <input name="bid_price" type="number" />
+      <button type="submit" name="Option" value="bid">Submit</button>
+    </div>
+</form>
+</div>
+{% endblock %}

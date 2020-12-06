@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: online-auction-system-back
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: online-auction-system-back
+  template:
+    metadata:
+      labels:
+        app: online-auction-system-back
+    spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+      containers:
+      - name: online-auction-system-back
+        image: onlineauctionsystem.azurecr.io/online_auction_system_web:latest
+        env:
+        - name: ALLOW_EMPTY_PASSWORD
+          value: "yes"
+        ports:
+        - containerPort: 6379
+          name: redis
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: online-auction-system-back
+spec:
+  ports:
+  - port: 6379
+  selector:
+    app: online-auction-system-back
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: online-auction-system-front
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: online_auction_system_web
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5 
+  template:
+    metadata:
+      labels:
+        app: online_auction_system_web
+    spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+      containers:
+      - name: online-auction-system-front
+        image: onlineauctionsystem.azurecr.io/online_auction_system_web:latest
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 250m
+          limits:
+            cpu: 500m
+        env:
+        - name: REDIS
+          value: "online-auction-system-back"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: online-auction-system-front
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+  selector:
+    app: online_auction_system_web

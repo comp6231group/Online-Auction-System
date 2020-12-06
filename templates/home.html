@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Auction System</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+		{% load static %}  
+		<link href="{% static 'css/main.css' %}" rel="stylesheet">
+	</head>
+	<body>
+		<nav class="navbar navbar-default">  
+		  <div class="container-fluid">
+		    <div class="navbar-header">
+		      <a class="navbar-brand" href="{% url 'home-view' %}">Online Auction System</a>
+		    </div>
+		    <ul class="nav navbar-nav">
+		    	<li><a href="{% url 'products-list-view' %}">Products List</a></li>
+		      	<li><a href="{% url 'upload-product-view' %}">Upload Product</a></li>
+		      	<li><a href="{% url 'purchases-view' %}">View Purchases</a></li>		      
+		    </ul>
+		    <ul class="nav navbar-nav navbar-right">
+		    	<li><a>{{username}}</a></li>
+		    	<li class="dropdown">
+			        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+			        <span class="glyphicon glyphicon-off"></span></a>
+			        <ul class="dropdown-menu">
+			          <li><a href="{% url 'deregister-view' %}">De-register</a></li>
+			          <li><a href="{% url 'logout-view' %}">Logout</a></li>
+			        </ul>
+			    </li>
+			</ul>
+		  </div>
+		</nav>
+		<p>
+		{% block content%}
+		<br>
+		<br>
+		<br>
+		<div class="col-md-2"></div>
+		<div class="col-md-8">
+			<div id="myCarousel" class="carousel slide" data-ride="carousel">
+			    <!-- Indicators -->
+			    <ol class="carousel-indicators">
+			      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+			      <li data-target="#myCarousel" data-slide-to="1"></li>
+			      <li data-target="#myCarousel" data-slide-to="2"></li>
+			    </ol>
+
+			    <!-- Wrapper for slides -->
+			    <div class="carousel-inner">
+			      <div class="item active">
+			        <img src="{% static 'images/auctionimage.png' %}" alt="Los Angeles" style="width:100%;">
+			      </div>
+
+			      <div class="item">
+			        <img src="{% static 'images/auctionimage.png' %}" alt="Chicago" style="width:100%;">
+			      </div>
+			    
+			      <div class="item">
+			        <img src="{% static 'images/auctionimage.png' %}" alt="New york" style="width:100%;">
+			      </div>
+			    </div>
+
+			    <!-- Left and right controls -->
+			    <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+			      <span class="glyphicon glyphicon-chevron-left"></span>
+			      <span class="sr-only">Previous</span>
+			    </a>
+			    <a class="right carousel-control" href="#myCarousel" data-slide="next">
+			      <span class="glyphicon glyphicon-chevron-right"></span>
+			      <span class="sr-only">Next</span>
+			    </a>
+			  </div>
+		</div>
+		<div class="col-md-2"></div>
+			
+		{% endblock %}
+		</p>
+	</body>	
+</html>
+

@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Auction System</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+		{% load static %}  
+		<link href="{% static 'css/main.css' %}" rel="stylesheet">
+	</head>
+	<body class="background">
+		<form action="." method="POST">{% csrf_token %}
+			<div class="container">
+				<div class="row" style="height:180px">
+					
+				</div>
+				<div class="row">
+					<div class="col-md-4"></div>
+					<div class="col-md-3"></div>
+					<div class="col-md-5 loginCss">
+						
+						<label style="font-size: 25px;color: #00C6FA;" class="col-md-12">Online Auction System</label>
+						<br>
+						<br>
+						<br>
+						{% if error_message %}
+							<div class="alert alert-danger alert-dismissible col-md-12" role="alert">
+								<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+							  	<label>{{error_message}}</label>
+							</div>
+						{% endif %}						
+						<br>
+						<br>
+
+						<div class="form-group">					  
+						  	<span class="input-group-addon" style="float:left;height:34px;width: 11%"><i class="glyphicon glyphicon-user"></i></span>
+	    					<input id="txt_Email" type="text" name="emailid" class="form-control" placeholder="Enter Email" style="width: 89%">
+						</div>
+						<div class="form-group">					  
+						  	<span class="input-group-addon" style="float:left;height:34px;width: 11%"><i class="glyphicon glyphicon-lock"></i></span>
+	    					<input id="txt_Password" type="password" name="password" class="form-control" placeholder="Enter Password" style="width: 89%">
+						</div>
+						<br>
+						<div class="col-md-12"><button type="submit" class="btn btn-primary" style="width:100%;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">Login</button></div>
+						<br>
+						<br>						
+						<br>
+						<div class="col-md-12"><a href="registeruser/" style="color: #00C6FA;">Register User</a></div>
+						
+						<br>
+						<br>
+					</div>
+				</div>
+			</div>
+		</form>
+	</body>	
+</html>
+

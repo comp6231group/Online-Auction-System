@@ -1,0 +1,79 @@
+{% extends 'home.html' %}
+{% block content%}
+
+<style>
+table, th, td {
+  border: 0 ;
+}
+
+th, td {
+  padding: 10px;
+}
+</style>
+	<body>
+
+<div align="center" style="margin-top: 100px;">
+<form method="POST" , enctype="multipart/form-data" novalidate>
+  {% csrf_token %}
+
+  {{ form.non_field_errors }}
+
+  {{ form.source.errors }}
+  {{ form.source }}
+
+  <table border="0" >
+
+      <tr>
+        <th>Product Name:</th>
+        <td>
+          {{ form.productname.errors }}
+          {{ form.productname }}
+        </td>
+      </tr>
+
+      <tr>
+        <th>{{ form.category.label_tag }}</th>
+        <td>
+          {{ form.category.errors }}
+          {{ form.category }}
+        </td>
+      </tr>
+
+      <tr>
+        <th>{{ form.description.label_tag }}</th>
+        <td>
+          {{ form.description.errors }}
+          {{ form.description }}
+          <br />
+          {{ form.description.help_text }}
+        </td>
+      </tr>
+	  <tr>
+        <th>{{ form.price.label_tag }}</th>
+        <td>
+          {{ form.price.errors }}
+          {{ form.price }}          
+        </td>
+      </tr>
+      <tr>
+        <th>{{ form.quantity.label_tag }}</th>
+        <td>
+          {{ form.quantity.errors }}
+          {{ form.quantity }}          
+        </td>
+      </tr>
+      <tr>
+        <th>{{ form.image.label_tag }}</th>
+        <td>
+          {{ form.image.errors }}
+          {{ form.image }}          
+        </td>
+      </tr>
+
+  </table>
+
+  <button type="submit">Submit</button>
+</form>
+</div>
+{% endblock %}
+</body>	
