@@ -14,6 +14,7 @@ from django.db.models import Q
 import subprocess
 
 global bduration
+bduration = 1
 # Create your views here.
 def login_view(request,*args,**kwargs):
 	request.session['userid']=""
