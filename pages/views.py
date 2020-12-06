@@ -13,8 +13,6 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 import subprocess
 
-global bduration
-bduration = 1
 # Create your views here.
 def login_view(request,*args,**kwargs):
 	request.session['userid']=""
@@ -156,13 +154,12 @@ def product_view(request, *args, **kwargs):
 
 		if request.POST.get('Option') == 'start_bidding' :	
 			bid_duration = request.POST.get("bid_duration")
-			bduration = bid_duration
-			product.endtime = datetime.datetime.now()+datetime.timedelta(minutes = bid_duration)
+			product.endtime = datetime.datetime.now()+datetime.timedelta(minutes = int(bid_duration))
 			product.status = 'BIDDING'
 			product.save()
 			context["bidtime"] = product.endtime
 			notify_users(product.productname)
-			notify_or_restart(product.productid)
+			notify_or_restart(product.productid,60*int(bid_duration),schedule=60*int(bid_duration))
 			subprocess.Popen("python manage.py process_tasks --sleep 60", shell=True)
 
 
@@ -231,8 +228,8 @@ def notify_change(productname,bidprice):
 	# )
 
 
-@background(schedule=60*bduration)
-def notify_or_restart(productid):
+@background(schedule=60)
+def notify_or_restart(productid,scheduletime):
 	print(productid)
 	product=Product.objects.get(productid=productid)
 	print(product.productid)
@@ -254,9 +251,9 @@ def notify_or_restart(productid):
 			    recipient_list = [seller_user.emailid,],
 			)
 	else:
-		product.endtime = datetime.datetime.now()+datetime.timedelta(minutes = 1)
+		product.endtime = datetime.datetime.now()+datetime.timedelta(minutes = scheduletime)
 		product.save()
-		notify_or_restart(product.productid)
+		notify_or_restart(product.productid,scheduletime, schedule =scheduletime)
 		subprocess.Popen("python manage.py process_tasks --sleep 60", shell=True)
 		
 
