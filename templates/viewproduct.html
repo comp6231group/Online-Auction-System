@@ -92,7 +92,9 @@ th, td {
      </table>
      <input type="hidden" name="productid" value="{{ product.productid }}">
      {% if isadmin == True %}
+     <div id="bid_duration">Enter bid duration(mins): <input name="bid_duration" type="number" />
      	<button type="submit" name="Option" value="start_bidding">Start Bidding</button>
+      </div>
      {% else %}
      	<button type="button" onclick="bid_details()" style="font-size: 20px;color: green;" id="bidButton">Bid</button>
      {% endif %}

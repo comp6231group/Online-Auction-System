@@ -13,7 +13,7 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 import subprocess
 
-
+global bduration
 # Create your views here.
 def login_view(request,*args,**kwargs):
 	request.session['userid']=""
@@ -154,7 +154,9 @@ def product_view(request, *args, **kwargs):
 		}
 
 		if request.POST.get('Option') == 'start_bidding' :	
-			product.endtime = datetime.datetime.now()+datetime.timedelta(minutes = 1)
+			bid_duration = request.POST.get("bid_duration")
+			bduration = bid_duration
+			product.endtime = datetime.datetime.now()+datetime.timedelta(minutes = bid_duration)
 			product.status = 'BIDDING'
 			product.save()
 			context["bidtime"] = product.endtime
@@ -228,7 +230,7 @@ def notify_change(productname,bidprice):
 	# )
 
 
-@background(schedule=60)
+@background(schedule=60*bduration)
 def notify_or_restart(productid):
 	print(productid)
 	product=Product.objects.get(productid=productid)
