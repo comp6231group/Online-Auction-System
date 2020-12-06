@@ -86,6 +86,8 @@ def upload_product_view(request,*args,**kwargs):
 			print('session userid ',request.session['userid'])
 			form = form.save(commit=False)
 			form.userid = request.session['userid']
+			form.endtime = datetime.datetime.now()
+			form.status = 'NEW'
 			form.save()
 			form = ProductForm()
 			return HttpResponseRedirect(reverse('home-view'))
