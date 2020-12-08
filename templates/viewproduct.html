@@ -1,41 +1,38 @@
 {% extends 'home.html' %}
 
 {% block content %}
-	<style>
+  <style>
     #bid_amount{
        display : none;
     }
-table, th, td {
-  border: 0 ;
-  max-width: 600px;
-}
+    .col-md-8 label{
+      font-weight: normal;
+    }
 
-
-
-th, td {
-  padding: 10px;
-}
+    .col-md-6 .row{
+      padding: 10px;
+    }
 </style>
-	<body>
-		<script>
-    	//var countDownDate = new Date("Nov 17, 2020 15:45:25").getTime();
+  <body>
+    <script>
+      //var countDownDate = new Date("Nov 17, 2020 15:45:25").getTime();
       //alert( "{{ bidtime }}" )
       error ="{{error}}"
       productstatus = "{{productstatus}}"
       if(Boolean(error))
         alert(error)
-    	var countDownDate = new Date("{{ bidtime|safe}}").getTime();
-    	var x = setInterval(function() {
-    	var now = new Date().getTime();
-    	var distance = countDownDate - now;
-    	var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    	var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-    	document.getElementById("time_remaining").innerHTML = minutes + "m " + seconds + "s ";
-    if (distance < 0 || productstatus == "SOLD" || productstatus == "NEW" || (minutes == 0 && seconds == 0)) {
-    	  clearInterval(x);
-    	  document.getElementById("time_remaining").innerHTML = "NOT AVAILABLE";
-        document.getElementById("bidButton").hidden = true;
-    	}
+      var countDownDate = new Date("{{ bidtime|safe}}").getTime();
+      var x = setInterval(function() {
+      var now = new Date().getTime();
+      var distance = countDownDate - now;
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      document.getElementById("time_remaining").innerHTML = minutes + "m " + seconds + "s ";
+      if (distance < 0 || productstatus == "SOLD" || productstatus == "NEW" || (minutes == 0 && seconds == 0)) {
+        clearInterval(x);
+        document.getElementById("time_remaining").innerHTML = "EXPIRED";
+        document.getElementById("bidButton").style.display = "none";
+      }
     }, 1000);
 
     function bid_details() {
@@ -44,65 +41,83 @@ th, td {
       
     }
 </script>
-
-<div align="center" style="margin-top: 100px; ">
-<br/>
-<img src="/{{product.image}}" width="450px" style="float: left;margin-left: 10px" >
-<br/>
 <form method="POST" action="." >
-	  {% csrf_token %}
- <table border="0" >
- 	  <tr>
-        <th>Time remaining:</th>
-        <td >
-        <a id="time_remaining"></a>
-        </td>
-      </tr>
-      
-      <tr>
-        <th>Product Name:</th>
-        <td>
-         {{product.productname}}
-        </td>
-      </tr>
-      <tr>
-        <th>Product Category:</th>
-        <td>
-         {{product.category}}
-        </td>
-      </tr>
-      <tr>
-        <th>Product Description:</th>
-        <td>
-         {{product.description}}
-        </td>
-      </tr>
-      <tr>
-        <th>Price:</th>
-        <td>
-         $ {{product.price}}
-        </td>
-      </tr>
-      <tr>
-        <th>Current Highest Bid:</th>
-        <td>
-         $ {{product.highestbid}}
-        </td>
-      </tr>
-     </table>
-     <input type="hidden" name="productid" value="{{ product.productid }}">
-     {% if isadmin == True %}
-     <div id="bid_duration">Enter bid duration(mins): <input name="bid_duration" type="number" />
-     	<button type="submit" name="Option" value="start_bidding">Start Bidding</button>
+    {% csrf_token %}
+    <div class="container">
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10 loginCss">
+          <div class="row">
+            <div class="col-md-6">
+              <img src="/{{product.image}}" width="100%">
+            </div>
+            <div class="col-md-6">
+              <div class="row" style="text-align: left;">
+                <div class="col-md-4"><label>Time Remaining:</label></div>
+                <div class="col-md-8"><a id="time_remaining"></a></div>
+              </div>
+              <div class="row" style="text-align: left;">
+                <div class="col-md-4"><label>Product Name:</label></div>
+                <div class="col-md-8"><label>{{product.productname}}</label></div>
+              </div>
+              <div class="row" style="text-align: left;">
+                <div class="col-md-4"><label>Product Category:</label></div>
+                <div class="col-md-8"><label>{{product.category}}</label></div>
+              </div>
+              <div class="row" style="text-align: left;">
+                <div class="col-md-4"><label>Product Description:</label></div>
+                <div class="col-md-8"><label>{{product.description}}</label></div>
+              </div>
+              <div class="row" style="text-align: left;">
+                <div class="col-md-4"><label>Price:</label></div>
+                <div class="col-md-8"><label>$ {{product.price}}</label></div>
+              </div>
+              <div class="row" style="text-align: left;">
+                <div class="col-md-4"><label>Current Highest Bid:</label></div>
+                <div class="col-md-8"><label>$ {{product.highestbid}}</label></div>
+              </div>
+              {% if isadmin == True %}
+                <div id="bid_duration" class="row">
+                  <div class="col-md-4"><label>Enter Bid Duration(mins):</label></div>
+                  <div class="col-md-8"><input id="txt_Bidduration" type="number" name="bid_duration" class="form-control" style="width: 100%"></div>
+                </div>
+                <div class="row">
+                  <div class="col-md-2"></div>
+                  <div class="col-md-8">                  
+                    <button type="submit" name="Option" value="start_bidding" class="btn btn-primary" style="width:100%;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">Start Bidding</button>
+                  </div>
+                  <div class="col-md-2"></div>
+                </div>
+              {% else %}
+                <div class="row">
+                  <div class="col-md-2"></div>
+                  <div class="col-md-8"> 
+                    <button type="button" onclick="bid_details()" class="btn btn-primary" style="width:100%;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);" id="bidButton">Bid</button>
+                  </div>
+                  <div class="col-md-2"></div>
+              {% endif %}
+              <br>
+              <br>
+              <div id="bid_amount" class="row" style="text-align: left;">
+                <div class="row">
+                  <div class="col-md-4"><label>Enter Bid Amount:</label></div>
+                  <div class="col-md-8"><input id="txt_Bidprice" type="number" name="bid_price" class="form-control" style="width: 100%"></div>
+                </div>
+                <div class="row">
+                  <div class="col-md-2"></div>
+                  <div class="col-md-8">
+                    <button type="submit" name="Option" value="bid" class="btn btn-primary" style="width:100%;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">Submit</button>
+                  </div>
+                  <div class="col-md-2"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-1"></div>
       </div>
-     {% else %}
-     	<button type="button" onclick="bid_details()" style="font-size: 20px;color: green;" id="bidButton">Bid</button>
-     {% endif %}
-     <br/>
-     <br/>
-     <div id="bid_amount">Enter bid amount: <input name="bid_price" type="number" />
-      <button type="submit" name="Option" value="bid">Submit</button>
     </div>
+    <input type="hidden" name="productid" value="{{ product.productid }}">
 </form>
 </div>
 {% endblock %}
