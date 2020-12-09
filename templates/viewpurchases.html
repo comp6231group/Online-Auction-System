@@ -1,0 +1,43 @@
+{% extends 'home.html' %}
+
+{% block content %}
+	<div class="row" align="center" style="margin-top: 50px; margin-left: 50px; margin-right: 50px;">
+		{% for instance in products %}
+			<div class="col-md-3 loginCss">
+				<div class="col-md-12"><img src="/{{instance.image}}" style="width: 100px;height: 100px;object-fit: contain;" ></div>
+				<div class="col-md-12" style="font-size: 20px;">
+					<a>{{instance.productname}}</a>
+				</div>
+				<div class="col-md-12">
+					<label style="font-weight: bold">Purchased Amount: </label> ${{instance.highestbid}}<br/>
+				</div>
+			</div>
+			<div class="col-md-1"></div>
+	        {% if forloop.counter|divisibleby:3 and not forloop.last %}
+	        </div><div class="row" align="center" style="margin-top: 80px; margin-left: 50px; margin-right: 50px;">
+	        {% endif %}
+		{% endfor %} 
+	</div>
+	<div align="center" style="margin-top: 15px;">
+    	{% if products.has_previous %}
+	    	<a href="?page={{products.previous_page_number}}">
+	    		<span class="glyphicon glyphicon-backward"></span>
+	    	</a> 
+	    {% else %}
+	    	<span class="glyphicon glyphicon-backward"></span>
+    	{% endif %}
+    	&nbsp;
+    	<span>
+    	Page {{products.number}} of {{products.paginator.num_pages}}
+    	</span> 
+    	&nbsp;
+    	{% if products.has_next %}
+	    	<a href="?page={{products.next_page_number}}">
+	    		<span class="glyphicon glyphicon-forward"></span>
+	    	</a> 
+	    {% else %}
+	    	<span class="glyphicon glyphicon-forward"></span>
+    	{% endif %}
+	</div>
+
+{% endblock %}

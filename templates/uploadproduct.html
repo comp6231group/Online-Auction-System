@@ -1,18 +1,16 @@
 {% extends 'home.html' %}
 {% block content%}
 
-<style>
-table, th, td {
-  border: 0 ;
-}
+<script type="text/javascript">
+  $(window).on('load', function() {
+    $(".col-md-8 input[type=text]").addClass("form-control");
+    $(".col-md-8 input[type=number]").addClass("form-control");
+    $(".col-md-8 textarea").addClass("form-control");
+  });
+  
+</script>>
+<style></style>
 
-th, td {
-  padding: 10px;
-}
-</style>
-	<body>
-
-<div align="center" style="margin-top: 100px;">
 <form method="POST" , enctype="multipart/form-data" novalidate>
   {% csrf_token %}
 
@@ -20,8 +18,80 @@ th, td {
 
   {{ form.source.errors }}
   {{ form.source }}
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3"></div>
+      <div class="col-md-6 loginCss">
+        <label style="font-size: 25px;color: #00C6FA;" class="col-md-12">Upload Product</label>
+        <br>        
+        {% if message %}
+          <div class="alert alert-success alert-dismissible col-md-12" role="alert">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+              <label>{{message}}</label>
+          </div>
+        {% endif %}
+        <br>
+        <br>
+        <div class="row">
+          <div class="col-md-4" style="text-align: left;">
+            <label>Product Name:<span style="color:red;font-size: 20px">*</span></label>
+          </div>
+          <div class="col-md-8">
+            {{ form.productname.errors }}
+            {{ form.productname }}
+          </div>
+        </div>          
+        <br>
+        <div class="row">
+          <div class="col-md-4" style="text-align: left;">
+            <label>{{ form.category.label_tag }}<span style="color:red;font-size: 20px">*</span></label>
+          </div>
+          <div class="col-md-8">
+            {{ form.category.errors }}
+            {{ form.category }}
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-md-4" style="text-align: left;">
+            <label>{{ form.description.label_tag }}<span style="color:red;font-size: 20px">*</span></label>
+          </div>
+          <div class="col-md-8">
+            {{ form.description.errors }}
+            {{ form.description }}
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-md-4" style="text-align: left;">
+            <label>{{ form.price.label_tag }}<span style="color:red;font-size: 20px">*</span></label>
+          </div>
+          <div class="col-md-8">
+            {{ form.price.errors }}
+            {{ form.price }}
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-md-4" style="text-align: left;">
+            <label>{{ form.image.label_tag }}<span style="color:red;font-size: 20px">*</span></label>
+          </div>
+          <div class="col-md-8">
+            {{ form.image.errors }}
+            {{ form.image }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2"></div>
+          <div class="col-md-8"><button type="submit" class="btn btn-primary" style="width:100%;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">Auction</button></div>
+          <div class="col-md-2"></div>
+        </div>
+      </div>
+      <div class="col-md-3"></div>
+    </div>
+  </div>
 
-  <table border="0" >
+  <!-- <table border="0" >
 
       <tr>
         <th>Product Name:</th>
@@ -48,7 +118,7 @@ th, td {
           {{ form.description.help_text }}
         </td>
       </tr>
-	  <tr>
+    <tr>
         <th>{{ form.price.label_tag }}</th>
         <td>
           {{ form.price.errors }}
@@ -65,8 +135,6 @@ th, td {
 
   </table>
 
-  <button type="submit">Submit</button>
+  <button type="submit"></button> -->
 </form>
-</div>
-{% endblock %}
-</body>	
+{% endblock %} 

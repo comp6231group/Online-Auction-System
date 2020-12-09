@@ -286,3 +286,26 @@ def deregister_view(request,*args,**kwargs):
 		request.session['userid']=""
 		request.session['isadmin']=""
 	return render(request, 'deregister.html',context)
+
+def purchases_view(request, *args, **kwargs):
+	if request.session['isadmin']:
+		my_products = Product.objects.exclude(winnerid__isnull = True)
+	else:
+		my_products = Product.objects.filter(winnerid = request.session["userid"])
+	print('pg no ',request.GET.get('page'))
+	if request.GET.get('page') == None:
+		page_number = 1
+	else:
+		page_number = request.GET.get('page')
+
+	if request.GET.get('productid') != None:
+		product_id = request.GET.get('productid')
+		print('productid',product_id)
+		return HttpResponseRedirect(reverse('product-view',kwargs={"productid":product_id}))
+	
+	paginator = Paginator(my_products, 6) # 6 items per page
+	products = paginator.page(page_number)
+	print(products)
+	return render(request, 'viewpurchases.html', {'products': products,'username' : request.session['username']})
+
+
