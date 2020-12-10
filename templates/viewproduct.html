@@ -35,6 +35,8 @@
         if (productstatus == "SOLD")
           document.getElementById("time_remaining").innerHTML = "EXPIRED";
         document.getElementById("bidButton").style.display = "none";
+      } else{
+        document.getElementById("bidButton").style.display = "block";
       }
     }, 1000);
     });

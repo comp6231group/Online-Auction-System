@@ -160,7 +160,7 @@ def product_view(request, *args, **kwargs):
 			product.save()
 			context["bidtime"] = product.endtime
 			notify_users(product.productname, bid_duration)
-			notify_or_restart(product.productid,60*int(bid_duration),schedule=60*int(bid_duration))
+			notify_or_restart(product.productid,int(bid_duration),schedule=60*int(bid_duration))
 			subprocess.Popen("python manage.py process_tasks --sleep 60", shell=True)
 
 
