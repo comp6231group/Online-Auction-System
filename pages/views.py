@@ -228,7 +228,6 @@ def notify_change(productname,bidprice):
 	    recipient_list = list_email,
 	)
 
-
 @background(schedule=60)
 def notify_or_restart(productid,scheduletime):
 	print(productid)
