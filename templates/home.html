@@ -18,7 +18,9 @@
 		    </div>
 		    <ul class="nav navbar-nav">
 		    	<li><a href="{% url 'products-list-view' %}">Products List</a></li>
+		    	{%if not isadmin%}
 		      	<li><a href="{% url 'upload-product-view' %}">Upload Product</a></li>
+		      	{% endif %}
 		      	<li><a href="{% url 'purchases-view' %}">View Purchases</a></li>		      
 		    </ul>
 		    <ul class="nav navbar-nav navbar-right">

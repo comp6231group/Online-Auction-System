@@ -40,7 +40,8 @@ def login_view(request,*args,**kwargs):
 def home_view(request,*args,**kwargs):
 	if request.session['userid']!="":		
 		context={
-			"username" : request.session['username']
+			"username" : request.session['username'],
+			"isadmin" : request.session['isadmin']
 		}
 	else:
 		return HttpResponseRedirect(reverse('login-view'))
