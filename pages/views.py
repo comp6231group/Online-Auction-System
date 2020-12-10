@@ -254,7 +254,7 @@ def notify_or_restart(productid,scheduletime):
 	else:
 		product.endtime = datetime.datetime.now()+datetime.timedelta(minutes = scheduletime)
 		product.save()
-		notify_or_restart(product.productid,scheduletime, schedule =scheduletime)
+		notify_or_restart(product.productid,scheduletime, schedule =60*int(scheduletime))
 		subprocess.Popen("python manage.py process_tasks --sleep 60", shell=True)
 		
 
