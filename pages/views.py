@@ -116,7 +116,7 @@ def products_list_view(request, *args, **kwargs):
 
 	paginator = Paginator(all_products, 6) # 8 items per page
 	products = paginator.page(page_number)
-	return render(request, 'viewlistings.html', {'products': products,'context': context})
+	return render(request, 'viewlistings.html', {'products': products,'username' : request.session['username']})
 
 def product_view(request, *args, **kwargs):
 	context = {}
@@ -158,7 +158,7 @@ def product_view(request, *args, **kwargs):
 			product.status = 'BIDDING'
 			product.save()
 			context["bidtime"] = product.endtime
-			notify_users(product.productname)
+			notify_users(product.productname, bid_duration)
 			notify_or_restart(product.productid,60*int(bid_duration),schedule=60*int(bid_duration))
 			subprocess.Popen("python manage.py process_tasks --sleep 60", shell=True)
 
@@ -187,7 +187,7 @@ def product_view(request, *args, **kwargs):
 	return render(request, 'viewproduct.html',context)
 
 
-def purchases_view(request, *args, **kwargs):
+'''def purchases_view(request, *args, **kwargs):
 	my_products = Product.objects.filter(winnerid = request.session["userid"])
 	print('pg no ',request.GET.get('page'))
 	if request.GET.get('page') == None:
@@ -202,30 +202,30 @@ def purchases_view(request, *args, **kwargs):
 
 	paginator = Paginator(my_products, 8) # 8 items per page
 	products = paginator.page(page_number)
-	return render(request, 'viewlistings.html', {'products': products})
+	return render(request, 'viewlistings.html', {'products': products})'''
 
 
-def notify_users(productname):
+def notify_users(productname, bid_duration):
 	all_users = UserProfiles.objects.filter(isadmin = False);
 	list_email = [d['emailid'] for d in all_users.values('emailid')] 
 	print(list_email)
-	# send_mail(
-	#     subject = "Online Auction : Product is on sale, Hurry!",
-	#     message = "Product is on sale :"+productname+"\nYou have 5 mins to bid until the auction ends.\n\nOnline Auction System",
-	#     from_email = "noreply@onlineauctionsystem.com",
-	#     recipient_list = list_email,
-	# )
+	send_mail(
+	    subject = "Online Auction : Product is on sale, Hurry!",
+	    message = "Product is on sale :"+productname+"\nYou have "+bid_duration+" mins to bid until the auction ends.\n\nOnline Auction System",
+	    from_email = "noreply@onlineauctionsystem.com",
+	    recipient_list = list_email,
+	 )
 
 def notify_change(productname,bidprice):
 	all_users = UserProfiles.objects.filter(isadmin = False);
 	list_email = [d['emailid'] for d in all_users.values('emailid')] 
 	print(list_email)
-	# send_mail(
-	#     subject = "Online Auction : Bidding is on, Hurry!",
-	#     message = "Product is on sale :"+productname+"\nNew Bid Price: $"+str(bidprice)+"\nYou have 5 mins to bid until the auction ends.\n\nOnline Auction System",
-	#     from_email = "noreply@onlineauctionsystem.com",
-	#     recipient_list = list_email,
-	# )
+	send_mail(
+	    subject = "Online Auction : Bidding is on, Hurry!",
+	    message = "Product is on sale :"+productname+"\nNew Bid Price: $"+str(bidprice)+"\n\nOnline Auction System",
+	    from_email = "noreply@onlineauctionsystem.com",
+	    recipient_list = list_email,
+	)
 
 
 @background(schedule=60)

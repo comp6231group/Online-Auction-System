@@ -17,7 +17,8 @@
     <script>
       //var countDownDate = new Date("Nov 17, 2020 15:45:25").getTime();
       //alert( "{{ bidtime }}" )
-      error ="{{error}}"
+      $(window).on('load', function() {
+     error ="{{error}}"
       productstatus = "{{productstatus}}"
       if(Boolean(error))
         alert(error)
@@ -30,11 +31,11 @@
       document.getElementById("time_remaining").innerHTML = minutes + "m " + seconds + "s ";
       if (distance < 0 || productstatus == "SOLD" || productstatus == "NEW" || (minutes == 0 && seconds == 0)) {
         clearInterval(x);
-        document.getElementById("time_remaining").innerHTML = "EXPIRED";
+        document.getElementById("time_remaining").innerHTML = "NOT AVAILABLE";
         document.getElementById("bidButton").style.display = "none";
       }
     }, 1000);
-
+    });
     function bid_details() {
       var x = document.getElementById("bid_amount");
       x.style.display = "block";
@@ -57,6 +58,10 @@
                 <div class="col-md-8"><a id="time_remaining"></a></div>
               </div>
               <div class="row" style="text-align: left;">
+                <div class="col-md-4"><label>Status:</label></div>
+                <div class="col-md-8"><a></a>{{product.status}}</div>
+              </div>
+              <div class="row" style="text-align: left;">
                 <div class="col-md-4"><label>Product Name:</label></div>
                 <div class="col-md-8"><label>{{product.productname}}</label></div>
               </div>
@@ -73,26 +78,28 @@
                 <div class="col-md-8"><label>$ {{product.price}}</label></div>
               </div>
               <div class="row" style="text-align: left;">
-                <div class="col-md-4"><label>Current Highest Bid:</label></div>
+                <div class="col-md-4"><label>Highest Bid:</label></div>
                 <div class="col-md-8"><label>$ {{product.highestbid}}</label></div>
               </div>
               {% if isadmin == True %}
-                <div id="bid_duration" class="row">
-                  <div class="col-md-4"><label>Enter Bid Duration(mins):</label></div>
-                  <div class="col-md-8"><input id="txt_Bidduration" type="number" name="bid_duration" class="form-control" style="width: 100%"></div>
-                </div>
-                <div class="row">
-                  <div class="col-md-2"></div>
-                  <div class="col-md-8">                  
-                    <button type="submit" name="Option" value="start_bidding" class="btn btn-primary" style="width:100%;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">Start Bidding</button>
+                {% if not product.highestbid %}
+                  <div id="bid_duration" class="row">
+                    <div class="col-md-4"><label>Enter Bid Duration(mins):</label></div>
+                    <div class="col-md-8"><input id="txt_Bidduration" type="number" name="bid_duration" class="form-control" style="width: 100%"></div>
                   </div>
-                  <div class="col-md-2"></div>
-                </div>
+                  <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">                  
+                      <button type="submit" name="Option" value="start_bidding" class="btn btn-primary" style="width:100%;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">Start Bidding</button>
+                    </div>
+                    <div class="col-md-2"></div>
+                  </div>
+                {% endif %}
               {% else %}
                 <div class="row">
                   <div class="col-md-2"></div>
                   <div class="col-md-8"> 
-                    <button type="button" onclick="bid_details()" class="btn btn-primary" style="width:100%;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);" id="bidButton">Bid</button>
+                    <button type="button" onclick="bid_details()" class="btn btn-primary" style="width:100%;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);display: none" id="bidButton">Bid</button>
                   </div>
                   <div class="col-md-2"></div>
               {% endif %}
