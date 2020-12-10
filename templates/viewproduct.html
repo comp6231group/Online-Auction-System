@@ -32,6 +32,8 @@
       if (distance < 0 || productstatus == "SOLD" || productstatus == "NEW" || (minutes == 0 && seconds == 0)) {
         clearInterval(x);
         document.getElementById("time_remaining").innerHTML = "NOT AVAILABLE";
+        if (productstatus == "SOLD")
+          document.getElementById("time_remaining").innerHTML = "EXPIRED";
         document.getElementById("bidButton").style.display = "none";
       }
     }, 1000);
