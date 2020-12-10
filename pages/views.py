@@ -119,7 +119,7 @@ def products_list_view(request, *args, **kwargs):
 
 	paginator = Paginator(all_products, 6) # 8 items per page
 	products = paginator.page(page_number)
-	return render(request, 'viewlistings.html', {'products': products,'username' : request.session['username']})
+	return render(request, 'viewlistings.html', {'products': products,'username' : request.session['username'],"isadmin" : request.session['isadmin']})
 
 def product_view(request, *args, **kwargs):
 	context = {}
