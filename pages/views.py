@@ -272,8 +272,8 @@ def deregister_view(request,*args,**kwargs):
 	"btn_message":"",
 	"url":""
 	}
-	user_offering=Product.objects.filter(userid = request.session["userid"], ~Q(status = 'SOLD') )
-	user_bidding=Product.objects.filter(winnerid = request.session["userid"], ~Q(status = 'SOLD') )
+	user_offering=Product.objects.filter(userid = request.session["userid"]).exclude(status='SOLD')
+	user_bidding=Product.objects.filter(winnerid = request.session["userid"]).exclude(status='SOLD')
 	if len(user_offering)!=0 or len(user_bidding)!=0:
 		context={
 		"message":"You cannot de-register, there is an active product for sale or bidding!",
