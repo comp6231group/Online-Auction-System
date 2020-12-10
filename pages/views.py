@@ -94,14 +94,16 @@ def upload_product_view(request,*args,**kwargs):
 
 	context = {
 		'form':form,
-		"username" : request.session['username']
+		"username" : request.session['username'],
+		"isadmin" : request.session['isadmin']
 	}
 	return render(request,"uploadproduct.html",context)
 
 
 def products_list_view(request, *args, **kwargs):
 	context={
-		"username" : request.session['username']
+		"username" : request.session['username'],
+		"isadmin" : request.session['isadmin']
 	}
 	all_products = Product.objects.all()
 	print('pg no ',request.GET.get('page'))
@@ -310,6 +312,6 @@ def purchases_view(request, *args, **kwargs):
 	paginator = Paginator(my_products, 6) # 6 items per page
 	products = paginator.page(page_number)
 	print(products)
-	return render(request, 'viewpurchases.html', {'products': products,'username' : request.session['username']})
+	return render(request, 'viewpurchases.html', {'products': products,'username' : request.session['username'],"isadmin" : request.session['isadmin']})
 
 
