@@ -90,7 +90,7 @@ def upload_product_view(request,*args,**kwargs):
 			form.status = 'NEW'
 			form.save()
 			form = ProductForm()
-			return HttpResponseRedirect(reverse('home-view'))
+			return HttpResponseRedirect(reverse('products-list-view'))
 
 	context = {
 		'form':form,
