@@ -132,6 +132,9 @@ def product_view(request, *args, **kwargs):
 			bidtime = datetime.datetime.now()
 
 		print('bidtime',bidtime)
+		sameuser = False
+		if product.userid == request.session['userid'] :
+			sameuser = True
 		context={
 			"productid" : kwargs["productid"],
 			"product" : product,
@@ -140,7 +143,8 @@ def product_view(request, *args, **kwargs):
 			#"bidtime" : "2020-11-17 15:47:17.012056"
 			"bidtime" : bidtime,
 			"username" : request.session['username'],
-			"productstatus" : product.status
+			"productstatus" : product.status,
+			"sameuser" :sameuser
 		}
 	print(request.POST.get('Option'))
 
@@ -268,8 +272,8 @@ def deregister_view(request,*args,**kwargs):
 	"btn_message":"",
 	"url":""
 	}
-	user_offering=Product.objects.filter(userid = request.session["userid"])
-	user_bidding=Product.objects.filter(winnerid = request.session["userid"])
+	user_offering=Product.objects.filter(userid = request.session["userid"], ~Q(status = 'SOLD') )
+	user_bidding=Product.objects.filter(winnerid = request.session["userid"], ~Q(status = 'SOLD') )
 	if len(user_offering)!=0 or len(user_bidding)!=0:
 		context={
 		"message":"You cannot de-register, there is an active product for sale or bidding!",
